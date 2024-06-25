@@ -6,6 +6,10 @@ public class Collections {
     Firestore db;
 
     public Collections(Firestore db_) {
-        db = db;
+        db = db_;
+    }
+ 
+    Cuisines getCuisines() {
+        return new Cuisines(db);
     }
 }

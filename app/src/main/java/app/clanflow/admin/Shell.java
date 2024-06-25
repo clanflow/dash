@@ -14,10 +14,14 @@ public class Shell {
         ShowBanner();
         Scanner scanner = new Scanner(System.in);
         while (true) {
-            System.out.print("> ");
+            System.out.print("~> ");
             System.out.flush();
             String input = scanner.nextLine();
-            System.out.println("Hello, " + input + "!");
+            
+            if (input.compareTo("cuisines") == 0) {
+                Cuisines c = collections.getCuisines();
+                c.Interact();
+            }
             if (input.startsWith("q")) {
                 break;
             }
