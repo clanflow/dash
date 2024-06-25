@@ -23,6 +23,9 @@ dependencies {
 
     // This dependency is used by the application.
     implementation libs.guava
+    implementation 'com.google.cloud:google-cloud-firestore:3.21.4'
+    implementation 'com.google.firebase:firebase-admin:9.3.0'
+    implementation 'com.google.firebase:firebase-server-sdk:3.0.3'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -34,10 +37,14 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'org.example.App'
+    mainClass = 'app.clanflow.admin.App'
 }
 
 tasks.named('test') {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+run {
+    standardInput = System.in
 }
