@@ -1,5 +1,8 @@
 package app.clanflow.admin;
 
-public interface Collection {
-    public void Interact();
+public abstract class Collection {
+    public abstract void Interact();
+    void printDelimiter() {
+        System.out.println("================================================");
+    }
 }

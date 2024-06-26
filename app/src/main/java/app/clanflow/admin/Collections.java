@@ -12,4 +12,8 @@ public class Collections {
     Cuisines getCuisines() {
         return new Cuisines(db);
     }
+
+    ItemCategories getItemCategories() {
+        return new ItemCategories(db);
+    }
 }

@@ -22,6 +22,10 @@ public class Shell {
                 Cuisines c = collections.getCuisines();
                 c.Interact();
             }
+            if (input.compareTo("item_categories") == 0) {
+                ItemCategories c = collections.getItemCategories();
+                c.Interact();
+            }
             if (input.startsWith("q")) {
                 break;
             }

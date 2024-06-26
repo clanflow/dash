@@ -2,6 +2,7 @@ package app.clanflow.admin;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.Filter;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -11,48 +12,38 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-public class Cuisines extends Collection {
+public class Items extends Collection {
     Firestore db;
 
-    public Cuisines(Firestore db_) {
+    public Items(Firestore db_) {
         db = db_;
     }
 
     @Override
     public void Interact() {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            System.out.print("~/cuisines> ");
-            System.out.flush();
-            String input = scanner.nextLine();
-            if (input.compareTo("list") == 0) {
-                list();
-            }
-            if (input.compareTo("add") == 0) {
-                add(scanner);
-            }
-            if (input.startsWith("q")) {
-                break;
-            }
-        }
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'Interact'");
     }
 
-    private void add(Scanner scanner) {
-        // Add cuisine
+    public void add(Scanner scanner, DocumentReference categoryRef) {
+        // Add an item.
         System.out.print("name: ");
-        String cuisineName = scanner.nextLine();
+        String item = scanner.nextLine();
         Map<String, Object> data = new HashMap<>();
-        data.put("name", cuisineName);
+        data.put("name", item);
+        data.put("category", categoryRef);
+
         try {
-            ApiFuture<DocumentReference> docRef = db.collection("cuisines").add(data);
+            ApiFuture<DocumentReference> docRef = db.collection("items").add(data);
             System.out.println("Id: " + docRef.get().getId());
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-    private void list() {
-        ApiFuture<QuerySnapshot> query = db.collection("cuisines").get();
+    public void list(DocumentReference categoryRef) {
+        Filter queryFilter = Filter.equalTo("category", categoryRef);
+        ApiFuture<QuerySnapshot> query = db.collection("items").where(queryFilter).get();
 
         try {
             // ...
