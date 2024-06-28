@@ -30,27 +30,6 @@ public class App {
             Collections collections = new Collections(db);
             Shell shell = new Shell(collections);
             shell.Run();
-/*
-            ApiFuture<QuerySnapshot> query = db.collection("users").get();
-            // ...
-            // query.get() blocks on response
-            QuerySnapshot querySnapshot = query.get();
-            List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
-            for (QueryDocumentSnapshot document : documents) {
-                System.out.println("User: " + document.getId());
-                System.out.println("Name: " + document.getString("display_name"));
-                System.out.println("Email: " + document.getString("email"));
-            }
-
-            
-            // Add Indian cuisine
-            Map<String, Object> data = new HashMap<>();
-            data.put("name", "Mexican");
-            ApiFuture<DocumentReference> docRef = db.collection("cuisines").add(data);
-            // ...
-            // result.get() blocks on response
-            System.out.println("Update time : " + docRef.get().getId());
-*/
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

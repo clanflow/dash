@@ -13,18 +13,26 @@ public class Shell {
     public void Run() throws IOException {
         ShowBanner();
         Scanner scanner = new Scanner(System.in);
+        String prefix = "~";
         while (true) {
-            System.out.print("~> ");
+            System.out.print(prefix + "> ");
             System.out.flush();
             String input = scanner.nextLine();
-            
-            if (input.compareTo("cuisines") == 0) {
-                Cuisines c = collections.getCuisines();
-                c.Interact();
+            if (input.compareTo("help") == 0) {
+                System.out.println("c|cuisines: Cuisines");
+                System.out.println("ic|item_categories: Item categories");
+                continue;
             }
-            if (input.compareTo("item_categories") == 0) {
+            
+            if (input.compareTo("c") == 0 ||
+                input.compareTo("cuisines") == 0) {
+                Cuisines c = collections.getCuisines();
+                c.Interact(scanner, prefix);
+            }
+            if (input.compareTo("ic") == 0 ||
+            input.compareTo("item_categories") == 0) {
                 ItemCategories c = collections.getItemCategories();
-                c.Interact();
+                c.Interact(scanner, prefix);
             }
             if (input.startsWith("q")) {
                 break;

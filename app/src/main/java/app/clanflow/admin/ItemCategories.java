@@ -5,9 +5,9 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.firestore.v1.Document;
 
-import io.grpc.netty.shaded.io.netty.util.internal.IntegerHolder;
-
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,26 +15,38 @@ import java.util.Scanner;
 
 public class ItemCategories extends Collection {
     Firestore db;
+    List<DocumentReference> addedCuisines;
+    List<DocumentReference> addedItems;
 
     public ItemCategories(Firestore db_) {
         db = db_;
+        addedCuisines = null;
+        addedItems = null;
+    }
+
+    public List<DocumentReference> GetItemsAdded() {
+        return addedItems;
+    }
+
+    public List<DocumentReference> GetCuisinesAdded() {
+        return addedCuisines;
     }
 
     @Override
-    public void Interact() {
-        Scanner scanner = new Scanner(System.in);
+    public void Interact(Scanner scanner, String prefix) {
+        String newPrefix = prefix + "/item_categories";
         while (true) {
-            System.out.print("~/item_categories> ");
+            System.out.print(prefix + "/item_categories> ");
             System.out.flush();
             String input = scanner.nextLine();
             if (input.compareTo("list") == 0) {
                 list();
             }
             if (input.compareTo("add") == 0) {
-                add(scanner);
+                add(scanner, newPrefix);
             }
             if (input.compareTo("pick") == 0) {
-                pick(scanner);
+                pick(scanner, newPrefix);
             }
             if (input.startsWith("q")) {
                 break;
@@ -42,7 +54,7 @@ public class ItemCategories extends Collection {
         }
     }
 
-    private void add(Scanner scanner) {
+    private void add(Scanner scanner, String prefix) {
         // Add cuisine
         System.out.print("name: ");
         String itemCategory = scanner.nextLine();
@@ -50,13 +62,19 @@ public class ItemCategories extends Collection {
         data.put("name", itemCategory);
         try {
             ApiFuture<DocumentReference> docRef = db.collection("item_categories").add(data);
-            System.out.println("Id: " + docRef.get().getId());
+            if (addedCuisines == null) {
+                addedCuisines = new ArrayList<DocumentReference>();
+            }
+
+            DocumentReference doc = docRef.get();
+            addedCuisines.add(doc);
+            System.out.println("Id: " + doc.getId());
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-    private List<QueryDocumentSnapshot> listInternal() {
+    public List<QueryDocumentSnapshot> List() {
         ApiFuture<QuerySnapshot> query = db.collection("item_categories").get();
         try {
             // ...
@@ -73,7 +91,7 @@ public class ItemCategories extends Collection {
 
     private void list() {
         try {
-            List<QueryDocumentSnapshot> documents = listInternal();
+            List<QueryDocumentSnapshot> documents = List();
             printDelimiter();
             if (documents != null) {
                 for (QueryDocumentSnapshot document : documents) {
@@ -87,14 +105,14 @@ public class ItemCategories extends Collection {
         }
     }
 
-    private void pick(Scanner scanner) {
+    private void pick(Scanner scanner, String prefix) {
         try {
             int idx = 0;
-            List<QueryDocumentSnapshot> documents = listInternal();
+            List<QueryDocumentSnapshot> documents = List();
             printDelimiter();
             if (documents != null) {
                 for (QueryDocumentSnapshot document : documents) {
-                    System.out.print("[" + idx + "]");
+                    System.out.print("[" + idx + "] ");
                     System.out.print("Id: " + document.getId());
                     System.out.println(" Name: " + document.getString("name"));
                     idx = idx + 1;
@@ -109,28 +127,39 @@ public class ItemCategories extends Collection {
             }
 
             int index = Integer.parseInt(input);
-            interact(scanner, documents.get(index));
+            interact(scanner, prefix, documents.get(index));
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
     }
 
-    private void interact(Scanner scanner, QueryDocumentSnapshot document) {
+    private void interact(Scanner scanner, String prefix, QueryDocumentSnapshot document) {
         DocumentReference ref = document.getReference();
+        String newPrefix = prefix + "/" + document.getString("name");
         Items i = new Items(db);
         while (true) {
-            System.out.print("~/item_categories/" + document.getString("name") + "> ");
+            System.out.print(newPrefix + "> ");
             System.out.flush();
             String input = scanner.nextLine();
-            if (input.compareTo("list_items") == 0) {
-                i.list(ref);
+            if (input.compareTo("list_items") == 0 ||
+                input.compareTo("li") == 0) {
+                i.List(ref);
             }
             if (input.compareTo("add") == 0) {
-                i.add(scanner, ref);
+                i.add(scanner, newPrefix, ref);
             }
             if (input.startsWith("q")) {
                 break;
             }
+        }
+
+        List<DocumentReference> newItems = i.GetItemsAdded();
+        if (newItems != null) {
+            if (addedItems == null) {
+                addedItems = new ArrayList<DocumentReference>();
+            }
+
+            addedItems.addAll(newItems);
         }
     }
 }

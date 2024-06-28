@@ -2,7 +2,7 @@ package app.clanflow.admin;
 
 import java.util.Scanner;
 
-public abstract class Collection {
+public abstract class Doc {
     public abstract void Interact(Scanner scanner, String prefix);
 
     void printDelimiter() {
