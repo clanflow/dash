@@ -3,6 +3,10 @@ package app.clanflow.admin;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.cloud.FirestoreClient;
+
+import app.clanflow.db.Collections;
+import app.clanflow.shell.RootShell;
+
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.cloud.firestore.DocumentReference;
@@ -13,6 +17,7 @@ import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) {
@@ -26,10 +31,10 @@ public class App {
                     .build();
             FirebaseApp defaultApp = FirebaseApp.initializeApp(options);
             Firestore db = FirestoreClient.getFirestore(defaultApp);
-
-            Collections collections = new Collections(db);
-            Shell shell = new Shell(collections);
-            shell.Run();
+            Scanner scanner = new Scanner(System.in);
+            Env env = new Env(db, scanner);
+            env.shells().rootShell().interact();
+            env.teardown();
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
