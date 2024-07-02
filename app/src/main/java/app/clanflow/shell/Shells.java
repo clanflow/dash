@@ -19,6 +19,10 @@ public class Shells {
         env = env_;
     }
 
+    public void close() {
+        scanner.close();
+    }
+
     public RootShell rootShell() {
         if (shell != null) { return shell; }
         shell = new RootShell(scanner, env);
@@ -48,4 +52,5 @@ public class Shells {
     public ItemCategoryShell itemCategoryShell(String prefix, ItemCategory category) {
         return new ItemCategoryShell(scanner, env, prefix, category);
     }
+
 }

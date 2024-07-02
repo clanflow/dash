@@ -10,7 +10,6 @@ import app.clanflow.shell.Shells;
 public class Env {
     Collections collections;
     Shells shells;
-    Scanner scanner;
 
     Env(Firestore db_, Scanner scanner_) {
         collections = new Collections(db_);
@@ -19,7 +18,7 @@ public class Env {
 
     void teardown() throws Exception {
         collections.close();
-        scanner.close();
+        shells.close();
     }
 
     public Collections collections() {
