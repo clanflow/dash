@@ -70,17 +70,15 @@ public class DishShell implements Shell {
 
             System.out.print("Pick index(s: skip): ");
             String input = scanner.nextLine();
-            if (input.compareTo("s") == 0) {
-                return;
-            }
-
-            int pickedIndex = Integer.parseInt(input);
-            if (pickedIndex >= 0 && pickedIndex < similarItems.size()) {
-                Item item = similarItems.get(pickedIndex);
-                dish.addItem(item);
-                System.out.print("Added: ");
-                item.print();
-                return;
+            if (input.compareTo("s") != 0) {
+                int pickedIndex = Integer.parseInt(input);
+                if (pickedIndex >= 0 && pickedIndex < similarItems.size()) {
+                    Item item = similarItems.get(pickedIndex);
+                    dish.addItem(item);
+                    System.out.print("Added: ");
+                    item.print();
+                    return;
+                }
             }
         }
 
