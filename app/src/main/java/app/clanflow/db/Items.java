@@ -89,4 +89,18 @@ public class Items {
 
         return items.get(itemRef);
     }
+
+    public List<Item> list(String itemName) {
+        if (items == null) {
+            populateFromBackend();
+        }
+
+        List<Item> itemList = new ArrayList<Item>();
+        for (Map.Entry<DocumentReference, Item> entry : items.entrySet()) {
+            if (entry.getValue().name().toLowerCase().contains(itemName.toLowerCase())) {
+                itemList.add(entry.getValue());
+            }
+        }
+        return itemList;
+    }
 }

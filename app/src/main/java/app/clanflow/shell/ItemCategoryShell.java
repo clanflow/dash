@@ -51,8 +51,13 @@ public class ItemCategoryShell implements Shell {
     }
 
     private void add() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        // Add cuisine
+        System.out.print("name: ");
+        String itemName = scanner.nextLine();
+        Item item = env.collections().itemsCollection().add(itemName, category);
+        Shell.PrintDelimiter();
+        item.print();
+        Shell.PrintDelimiter();
     }
 
     private void list() {

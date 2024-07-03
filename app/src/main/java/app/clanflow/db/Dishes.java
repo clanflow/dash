@@ -5,6 +5,8 @@ import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
+import com.google.firestore.v1.Document;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,5 +103,25 @@ public class Dishes {
             list();
         }
         return dishes.get(dishRef);
+    }
+
+    public void updateDish(Dish dish) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("name", dish.name());
+        data.put("cuisine", dish.cuisine().ref());
+        List<DocumentReference> items = new ArrayList<DocumentReference>();
+        for (Item item : dish.items()) {
+            items.add(item.ref());
+        }
+        data.put("items", items);
+
+        try {
+            ApiFuture<WriteResult> future = dish.ref().update(data);
+            WriteResult result = future.get();
+            System.out.println("Write result: " + result);
+            dishes.put(dish.ref(), dish);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
     }
 }

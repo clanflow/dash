@@ -3,6 +3,7 @@ package app.clanflow.shell;
 import app.clanflow.admin.Env;
 import app.clanflow.db.Dish;
 import app.clanflow.db.Item;
+import io.grpc.netty.shaded.io.netty.util.internal.IntegerHolder;
 
 import java.util.List;
 import java.util.Scanner;
@@ -48,11 +49,32 @@ public class DishShell implements Shell {
                 break;
             }
         }
+
+        dish.close();
     }
 
     private void add() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        System.out.print("name: ");
+        String itemName = scanner.nextLine();
+        List<Item> similarItems = env.collections().itemsCollection().list(itemName);
+        if (similarItems != null && similarItems.size() > 0) {
+            Shell.PrintDelimiter();
+            int idx = 0;
+            for (Item item : similarItems) {
+                System.out.print("[" + idx + "] ");
+                item.print();
+                idx = idx + 1;
+            }
+            Shell.PrintDelimiter();
+        }
+
+        System.out.println("Pick index(number outside of range to skip): ");
+        String input = scanner.nextLine();
+        int pickedIndex = Integer.parseInt(input);
+        if (pickedIndex >= 0 && pickedIndex < similarItems.size()) {
+            Item item = similarItems.get(pickedIndex);
+            dish.addItem(item);
+        }
     }
 
     private void list() {
