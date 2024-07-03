@@ -50,6 +50,7 @@ public class Dishes {
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -96,6 +97,7 @@ public class Dishes {
             dishes.put(dish.ref(), dish);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
         return dish;
@@ -127,6 +129,7 @@ public class Dishes {
             dishes.put(dish.ref(), dish);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 }

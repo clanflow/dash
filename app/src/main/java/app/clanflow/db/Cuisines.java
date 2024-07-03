@@ -36,6 +36,7 @@ public class Cuisines {
                 }
             } catch (Exception e) {
                 System.err.println(e.getMessage());
+                e.printStackTrace();
             }
         }
 
@@ -57,6 +58,7 @@ public class Cuisines {
             return cuisine;
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
         return cuisine;

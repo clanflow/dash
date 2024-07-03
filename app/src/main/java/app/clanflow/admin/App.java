@@ -37,6 +37,7 @@ public class App {
             env.teardown();
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
         System.out.println("Done !!!");

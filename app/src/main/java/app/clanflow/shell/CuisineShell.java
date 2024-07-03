@@ -6,6 +6,7 @@ import java.util.Scanner;
 import app.clanflow.admin.Env;
 import app.clanflow.db.Cuisine;
 import app.clanflow.db.Dish;
+import app.clanflow.db.Item;
 
 public class CuisineShell implements Shell {
     Scanner scanner;
@@ -80,8 +81,13 @@ public class CuisineShell implements Shell {
     }
 
     private void add() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'add'");
+        // Add dish
+        System.out.print("name: ");
+        String dishName = scanner.nextLine();
+        Dish dish = env.collections().dishesCollection().add(dishName, cuisine);
+        Shell.PrintDelimiter();
+        dish.print();
+        Shell.PrintDelimiter();
     }
 
     private void list() {

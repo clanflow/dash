@@ -40,6 +40,7 @@ public class ItemCategories {
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -70,6 +71,7 @@ public class ItemCategories {
             return category;
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
         return category;

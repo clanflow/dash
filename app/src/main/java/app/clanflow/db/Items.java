@@ -42,6 +42,7 @@ public class Items {
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -77,6 +78,7 @@ public class Items {
             items.put(item.ref(), item);
         } catch (Exception e) {
             System.err.println(e.getMessage());
+            e.printStackTrace();
         }
 
         return item;
