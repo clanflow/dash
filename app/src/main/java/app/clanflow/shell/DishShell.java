@@ -3,6 +3,7 @@ package app.clanflow.shell;
 import app.clanflow.admin.Env;
 import app.clanflow.db.Dish;
 import app.clanflow.db.Item;
+import app.clanflow.db.ItemCategory;
 import io.grpc.netty.shaded.io.netty.util.internal.IntegerHolder;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class DishShell implements Shell {
                 add();
             }
             if (input.compareTo("b") == 0 ||
-                input.compareTo("back") == 0) {
+                    input.compareTo("back") == 0) {
                 break;
             }
             if (input.startsWith("q")) {
@@ -66,15 +67,42 @@ public class DishShell implements Shell {
                 idx = idx + 1;
             }
             Shell.PrintDelimiter();
+
+            System.out.print("Pick index(s: skip): ");
+            String input = scanner.nextLine();
+            if (input.compareTo("s") == 0) {
+                return;
+            }
+
+            int pickedIndex = Integer.parseInt(input);
+            if (pickedIndex >= 0 && pickedIndex < similarItems.size()) {
+                Item item = similarItems.get(pickedIndex);
+                dish.addItem(item);
+                System.out.print("Added: ");
+                item.print();
+                return;
+            }
         }
 
-        System.out.println("Pick index(number outside of range to skip): ");
-        String input = scanner.nextLine();
-        int pickedIndex = Integer.parseInt(input);
-        if (pickedIndex >= 0 && pickedIndex < similarItems.size()) {
-            Item item = similarItems.get(pickedIndex);
-            dish.addItem(item);
+        List<ItemCategory> categories = env.collections().itemCategoriesCollection().list();
+        int idx = 0;
+        for (ItemCategory category : categories) {
+            System.out.print("[" + idx + "] ");
+            category.print();
+            idx = idx + 1;
         }
+
+        System.out.print("Pick index(s: skip): ");
+        String input = scanner.nextLine();
+        if (input.compareTo("s") == 0) {
+            return;
+        }
+
+        int pickedIndex = Integer.parseInt(input);
+        Item item = env.collections().itemsCollection().add(itemName, categories.get(pickedIndex));
+        dish.addItem(item);
+        System.out.print("Added: ");
+        item.print();
     }
 
     private void list() {

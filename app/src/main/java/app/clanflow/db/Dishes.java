@@ -67,7 +67,7 @@ public class Dishes {
 
     public List<Dish> list(Cuisine cuisine) {
         if (dishes == null) {
-            list();
+            populateFromBackend();
         }
 
         List<Dish> dishList = new ArrayList<Dish>();
@@ -82,6 +82,9 @@ public class Dishes {
     }
 
     public Dish add(String dishName, Cuisine cuisine) {
+        if (dishes == null) {
+            populateFromBackend();
+        }
         Map<String, Object> data = new HashMap<>();
         data.put("name", dishName);
         data.put("cuisine", cuisine.ref());
@@ -100,12 +103,15 @@ public class Dishes {
 
     public Dish lookup(DocumentReference dishRef) {
         if (dishes == null) {
-            list();
+            populateFromBackend();
         }
         return dishes.get(dishRef);
     }
 
     public void updateDish(Dish dish) {
+        if (dishes == null) {
+            populateFromBackend();
+        }
         Map<String, Object> data = new HashMap<>();
         data.put("name", dish.name());
         data.put("cuisine", dish.cuisine().ref());
@@ -117,8 +123,7 @@ public class Dishes {
 
         try {
             ApiFuture<WriteResult> future = dish.ref().update(data);
-            WriteResult result = future.get();
-            System.out.println("Write result: " + result);
+            future.get();
             dishes.put(dish.ref(), dish);
         } catch (Exception e) {
             System.err.println(e.getMessage());
