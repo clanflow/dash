@@ -43,7 +43,8 @@ public class CuisineShell implements Shell {
             if (input.compareTo("pick") == 0) {
                 pick();
             }
-            if (input.compareTo("back") == 0) {
+            if (input.compareTo("b") == 0 ||
+                input.compareTo("back") == 0) {
                 break;
             }
             if (input.startsWith("q")) {
@@ -53,7 +54,7 @@ public class CuisineShell implements Shell {
         }
     }
 
-	private void pick() {
+    private void pick() {
         int idx = 0;
         List<Dish> list = cuisine.list();
         Shell.PrintDelimiter();
@@ -93,8 +94,8 @@ public class CuisineShell implements Shell {
     }
 
     @Override
-	public boolean quit() {
-		return quit;
-	}
-    
+    public boolean quit() {
+        return quit;
+    }
+
 }

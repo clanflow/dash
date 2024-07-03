@@ -5,10 +5,12 @@ import java.util.List;
 import com.google.cloud.firestore.DocumentReference;
 
 public class ItemCategory {
+    Collections collections;
     DocumentReference ref;
     String name;
 
-    ItemCategory(DocumentReference ref_, String name_) {
+    ItemCategory(Collections collections_, DocumentReference ref_, String name_) {
+        collections = collections_;
         ref = ref_;
         name = name_;
     }
@@ -21,7 +23,6 @@ public class ItemCategory {
     }
 
     public List<Item> list() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'list'");
+        return collections.itemsCollection().list(this);
     }
 }

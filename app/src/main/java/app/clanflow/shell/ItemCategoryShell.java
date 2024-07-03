@@ -17,7 +17,7 @@ public class ItemCategoryShell implements Shell {
     ItemCategoryShell(Scanner scanner_, Env env_, String prefix_, ItemCategory category_) {
         scanner = scanner_;
         env = env_;
-        prefix = prefix_ + category_.name();
+        prefix = prefix_ + "/" + category_.name();
         category = category_;
     }
 
@@ -29,7 +29,7 @@ public class ItemCategoryShell implements Shell {
             if (input.compareTo("help") == 0) {
                 System.out.println("list: List items");
                 System.out.println("add: Add new item");
-                System.out.println("back: Go back");
+                System.out.println("b|back: Go back");
                 System.out.println("q: Quit");
                 continue;
             }
@@ -39,7 +39,8 @@ public class ItemCategoryShell implements Shell {
             if (input.compareTo("add") == 0) {
                 add();
             }
-            if (input.compareTo("back") == 0) {
+            if (input.compareTo("b") == 0 ||
+                input.compareTo("back") == 0) {
                 break;
             }
             if (input.startsWith("q")) {

@@ -35,7 +35,7 @@ public class ItemCategories {
             QuerySnapshot querySnapshot = query.get();
             List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
             for (DocumentSnapshot doc : documents) {
-                ItemCategory category = new ItemCategory(doc.getReference(), doc.getString("name"));
+                ItemCategory category = new ItemCategory(collections, doc.getReference(), doc.getString("name"));
                 itemCategories.put(doc.getReference(), category);
             }
         } catch (Exception e) {
@@ -65,7 +65,7 @@ public class ItemCategories {
         ItemCategory category = null;
         try {
             ApiFuture<DocumentReference> docRef = db.collection("item_categories").add(data);
-            category = new ItemCategory(docRef.get(), categoryName);
+            category = new ItemCategory(collections, docRef.get(), categoryName);
             itemCategories.put(category.ref(), category);
             return category;
         } catch (Exception e) {

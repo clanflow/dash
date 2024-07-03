@@ -29,7 +29,7 @@ public class DishShell implements Shell {
             if (input.compareTo("help") == 0) {
                 System.out.println("list: List items");
                 System.out.println("add: Add new item");
-                System.out.println("back: Go back");
+                System.out.println("b|back: Go back");
                 System.out.println("q: Quit");
                 continue;
             }
@@ -39,7 +39,8 @@ public class DishShell implements Shell {
             if (input.compareTo("add") == 0) {
                 add();
             }
-            if (input.compareTo("back") == 0) {
+            if (input.compareTo("b") == 0 ||
+                input.compareTo("back") == 0) {
                 break;
             }
             if (input.startsWith("q")) {

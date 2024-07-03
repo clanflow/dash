@@ -31,7 +31,7 @@ public class ItemCategoriesShell implements Shell {
                 System.out.println("list: List different categories");
                 System.out.println("add: Add new category");
                 System.out.println("pick: Pick a category");
-                System.out.println("back: Go back");
+                System.out.println("b|back: Go back");
                 System.out.println("q: Quit");
                 continue;
             }
@@ -44,7 +44,8 @@ public class ItemCategoriesShell implements Shell {
             if (input.compareTo("pick") == 0) {
                 pick();
             }
-            if (input.compareTo("back") == 0) {
+            if (input.compareTo("b") == 0 ||
+                input.compareTo("back") == 0) {
                 break;
             }
             if (input.compareTo("q") == 0) {

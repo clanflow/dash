@@ -43,7 +43,8 @@ public class CuisinesShell implements Shell {
             if (input.compareTo("pick") == 0) {
                 pick();
             }
-            if (input.compareTo("back") == 0) {
+            if (input.compareTo("b") == 0 ||
+                input.compareTo("back") == 0) {
                 break;
             }
             if (input.compareTo("q") == 0) {
