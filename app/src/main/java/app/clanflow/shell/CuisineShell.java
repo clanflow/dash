@@ -68,9 +68,9 @@ public class CuisineShell implements Shell {
         }
         Shell.PrintDelimiter();
 
-        System.out.print("Pick index: ");
+        System.out.print("Pick index(s: skip): ");
         String input = scanner.nextLine();
-        if (input.startsWith("q")) {
+        if (input.startsWith("s")) {
             return;
         }
 
@@ -85,6 +85,7 @@ public class CuisineShell implements Shell {
         System.out.print("name: ");
         String dishName = scanner.nextLine();
         Dish dish = env.collections().dishesCollection().add(dishName, cuisine);
+        cuisine.add(dish);
         Shell.PrintDelimiter();
         dish.print();
         Shell.PrintDelimiter();

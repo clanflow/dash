@@ -44,8 +44,10 @@ public class Dish {
 
     public List<Item> items() {
         List<Item> itemsList = new ArrayList<Item>();
-        for (Map.Entry<DocumentReference, Item> entry : items.entrySet()) {
-            itemsList.add(entry.getValue());
+        if (items != null) {
+            for (Map.Entry<DocumentReference, Item> entry : items.entrySet()) {
+                itemsList.add(entry.getValue());
+            }
         }
 
         return itemsList;

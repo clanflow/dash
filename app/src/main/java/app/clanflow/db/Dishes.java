@@ -38,8 +38,11 @@ public class Dishes {
             List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
             for (QueryDocumentSnapshot doc : documents) {
                 List<Item> items = new ArrayList<Item>();
-                for (DocumentReference itemRef : (List<DocumentReference>) doc.get("items")) {
-                    items.add(collections.itemsCollection().lookup(itemRef));
+                List<DocumentReference> itemRefs = (List<DocumentReference>) doc.get("items");
+                if (itemRefs != null) {
+                    for (DocumentReference itemRef : itemRefs) {
+                        items.add(collections.itemsCollection().lookup(itemRef));
+                    }
                 }
 
                 DocumentReference cuisineRef = (DocumentReference) doc.get("cuisine");

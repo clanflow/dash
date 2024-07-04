@@ -83,4 +83,8 @@ public class Cuisine {
 
         return dishList;
     }
+
+    public void add(Dish dish) {
+        dishes.put(dish.ref(), dish);
+    }
 }
