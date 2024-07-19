@@ -37,18 +37,31 @@ public class Dishes {
             QuerySnapshot querySnapshot = query.get();
             List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
             for (QueryDocumentSnapshot doc : documents) {
-                List<Item> items = new ArrayList<Item>();
-                List<DocumentReference> itemRefs = (List<DocumentReference>) doc.get("items");
-                if (itemRefs != null) {
-                    for (DocumentReference itemRef : itemRefs) {
-                        items.add(collections.itemsCollection().lookup(itemRef));
+                List<ItemCategoryItems> itemCategoryItemsList = new ArrayList<ItemCategoryItems>();
+                ApiFuture<QuerySnapshot> itemsQuery = doc.getReference()
+                        .collection("dish_item_category_items").get();
+                QuerySnapshot itemsQuerySnapshot = itemsQuery.get();
+                List<QueryDocumentSnapshot> itemsDocuments = itemsQuerySnapshot.getDocuments();
+                for (QueryDocumentSnapshot itemsDoc : itemsDocuments) {
+                    DocumentReference categoryRef = (DocumentReference) doc.get("category");
+                    ItemCategory itemCategory = collections.itemCategoriesCollection().lookup(categoryRef);
+                    List<Item> items = new ArrayList<Item>();
+                    List<DocumentReference> itemRefs = (List<DocumentReference>) doc.get("items");
+                    if (itemRefs != null) {
+                        for (DocumentReference itemRef : itemRefs) {
+                            items.add(collections.itemsCollection().lookup(itemRef));
+                        }
                     }
+
+                    ItemCategoryItems itemCategoryItems = new ItemCategoryItems(collections, itemsDoc.getReference(),
+                                                                                itemCategory, items);
+                    itemCategoryItemsList.add(itemCategoryItems);
                 }
 
                 DocumentReference cuisineRef = (DocumentReference) doc.get("cuisine");
                 Cuisine cuisine = collections.cuisinesCollection().lookup(cuisineRef);
                 Dish dish = new Dish(collections, doc.getReference(),
-                                     doc.getString("name"), cuisine, items);
+                        doc.getString("name"), cuisine, itemCategoryItemsList);
                 dishes.put(dish.ref(), dish);
             }
         } catch (Exception e) {

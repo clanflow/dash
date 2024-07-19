@@ -7,6 +7,7 @@ public class Collections {
     Cuisines cuisines;
     ItemCategories itemCategories;
     Dishes dishes;
+    DishItemCategoryItems dishItemCategoryItems;
     Items items;
 
     public Collections(Firestore db_) {
@@ -55,5 +56,14 @@ public class Collections {
 
         items = new Items(this);
         return items;
+    }
+
+    public DishItemCategoryItems dishItemCategoryItemsCollection() {
+        if (dishItemCategoryItems != null) {
+            return dishItemCategoryItems;
+        }
+
+        dishItemCategoryItems = new DishItemCategoryItems(this);
+        return dishItemCategoryItems;
     }
 }

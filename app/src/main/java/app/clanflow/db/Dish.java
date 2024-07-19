@@ -12,18 +12,19 @@ public class Dish {
     DocumentReference ref;
     String name;
     Cuisine cuisine;
-    Map<DocumentReference, Item> items;
+    Map<DocumentReference, ItemCategoryItems> itemCategoryItems;
     boolean dishModified;
 
-    Dish(Collections collections_, DocumentReference ref_, String name_, Cuisine cuisine_, List<Item> items_) {
+    Dish(Collections collections_, DocumentReference ref_,
+         String name_, Cuisine cuisine_, List<ItemCategoryItems> itemCategoryItemsList_) {
         collections = collections_;
         ref = ref_;
         name = name_;
         cuisine = cuisine_;
-        if (items_ != null) {
-            items = new HashMap<DocumentReference, Item>();
-            for (Item item : items_) {
-                items.put(item.ref(), item);
+        if (itemCategoryItemsList_ != null) {
+            itemCategoryItems = new HashMap<DocumentReference, ItemCategoryItems>();
+            for (ItemCategoryItems itemCategoryItemsItem : itemCategoryItemsList_) {
+                itemCategoryItems.put(itemCategoryItemsItem.ref(), itemCategoryItemsItem);
             }
         }
 
@@ -42,20 +43,20 @@ public class Dish {
         return cuisine;
     }
 
-    public List<Item> items() {
-        List<Item> itemsList = new ArrayList<Item>();
-        if (items != null) {
-            for (Map.Entry<DocumentReference, Item> entry : items.entrySet()) {
-                itemsList.add(entry.getValue());
+    public List<ItemCategoryItems> itemCategoryItems() {
+        List<ItemCategoryItems> itemCategoryItemsList = new ArrayList<ItemCategoryItems>();
+        if (itemCategoryItems != null) {
+            for (Map.Entry<DocumentReference, ItemCategoryItems> entry : itemCategoryItems.entrySet()) {
+                itemCategoryItemsList.add(entry.getValue());
             }
         }
 
-        return itemsList;
+        return itemCategoryItemsList;
     }
 
     public void addItem(Item item) {
-        if (items == null) {
-            items = new HashMap<DocumentReference, Item>();
+        if (itemCategoryItems == null) {
+            itemCategoryItems = new HashMap<DocumentReference, ItemCategoryItems>();
         }
 
         items.put(item.ref(), item);
