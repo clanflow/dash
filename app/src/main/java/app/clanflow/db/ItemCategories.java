@@ -81,7 +81,7 @@ public class ItemCategories {
         if (itemCategories == null) {
             populateFromBackend();
         }
-
+        
         return itemCategories.get(categoryRef);
     }
 }
