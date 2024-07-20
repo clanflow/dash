@@ -4,6 +4,7 @@ import app.clanflow.admin.Env;
 import app.clanflow.db.Dish;
 import app.clanflow.db.Item;
 import app.clanflow.db.ItemCategory;
+import app.clanflow.db.ItemCategoryItems;
 import io.grpc.netty.shaded.io.netty.util.internal.IntegerHolder;
 
 import java.util.List;
@@ -104,10 +105,10 @@ public class DishShell implements Shell {
     }
 
     private void list() {
-        List<Item> items = dish.items();
+        List<ItemCategoryItems> itemCategoryItemsList = dish.itemCategoryItems();
         Shell.PrintDelimiter();
-        for (Item item : items) {
-            item.print();
+        for (ItemCategoryItems itemCategoryItems : itemCategoryItemsList) {
+            itemCategoryItems.print();
         }
         Shell.PrintDelimiter();
     }

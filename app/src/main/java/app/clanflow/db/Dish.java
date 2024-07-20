@@ -16,7 +16,7 @@ public class Dish {
     boolean dishModified;
 
     Dish(Collections collections_, DocumentReference ref_,
-         String name_, Cuisine cuisine_, List<ItemCategoryItems> itemCategoryItemsList_) {
+            String name_, Cuisine cuisine_, List<ItemCategoryItems> itemCategoryItemsList_) {
         collections = collections_;
         ref = ref_;
         name = name_;
@@ -59,7 +59,17 @@ public class Dish {
             itemCategoryItems = new HashMap<DocumentReference, ItemCategoryItems>();
         }
 
-        items.put(item.ref(), item);
+        for (Map.Entry<DocumentReference, ItemCategoryItems> entry : itemCategoryItems.entrySet()) {
+            if (entry.getValue().itemCategory().ref() == item.itemCategory().ref()) {
+                entry.getValue().addItem(item);
+                dishModified = true;
+                return;
+            }
+        }
+
+        ItemCategoryItems newCategoryItems = collections.dishItemCategoryItemsCollection().add(this,
+                item.itemCategory(), item);
+        itemCategoryItems.put(newCategoryItems.ref(), newCategoryItems);
         dishModified = true;
     }
 

@@ -1,6 +1,8 @@
 package app.clanflow.db;
 
 import com.google.cloud.firestore.DocumentReference;
+import com.google.firestore.v1.Document;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +26,7 @@ public class ItemCategoryItems {
                 items.put(item.ref(), item);
             }
         }
+        modified = false;
     }
 
     public DocumentReference ref() {
@@ -66,11 +69,7 @@ public class ItemCategoryItems {
 
     }
 
-    public void close() {
-        if (!modified) {
-            return;
-        }
-
-        collections.dishItemCategoryItemsCollection().updateDishItemCategoryItems(this);
+    public boolean modified() {
+        return modified;
     }
 }
